@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dgbsdx-arch.github.io/kadioglu-lojistik/sitemap.xml

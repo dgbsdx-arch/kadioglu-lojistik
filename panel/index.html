@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta name="panel-build" content="9579c68a0b7c">
+<meta name="theme-color" content="#0b2545">
+<title>Muhasebe Paneli · Kadıoğlu Lojistik</title>
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="assets/css/panel.css?v=9579c68a0b7c">
+<script src="config.js?v=9579c68a0b7c" defer></script>
+<script src="assets/vendor/supabase.js?v=9579c68a0b7c" defer></script>
+<script src="assets/vendor/chart.umd.min.js?v=9579c68a0b7c" defer></script>
+<script src="assets/js/core.js?v=9579c68a0b7c" defer></script>
+<script src="assets/js/pages.js?v=9579c68a0b7c" defer></script>
+<script src="assets/js/pages2.js?v=9579c68a0b7c" defer></script>
+<script src="assets/js/app.js?v=9579c68a0b7c" defer></script>
+</head>
+<body>
+<div id="boot" class="boot" role="status" aria-label="Yükleniyor"><div class="spinner"></div></div>
+
+<!-- Yapılandırma eksik -->
+<section id="scr-config" class="auth-screen" hidden>
+  <div class="auth-wrap single">
+    <div class="auth-card">
+      <img class="auth-logo" src="assets/img/logo.png" alt="Kadıoğlu Lojistik" width="150" height="134">
+      <h1>Yapılandırma gerekli</h1>
+      <p>Panel henüz bir Supabase projesine bağlı değil. <code>config.js</code> dosyasındaki
+        <code>SUPABASE_URL</code> ve <code>SUPABASE_ANON_KEY</code> değerlerini doldurun.</p>
+      <p class="muted small">Ayrıntılar için README.md dosyasına bakın.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Giriş / şifre işlemleri -->
+<section id="scr-auth" class="auth-screen" hidden>
+  <div class="auth-wrap">
+    <div class="auth-side">
+      <div class="auth-side-inner">
+        <span class="eyebrow">Kadıoğlu Lojistik</span>
+        <h2>Muhasebe Paneli</h2>
+        <p>Faturalar, tahsilatlar, borçlar, giderler ve cari hesaplar tek ekranda.</p>
+        <ul class="ticks">
+          <li>Müşteri ve tedarikçi cari hesap, vade takibi</li>
+          <li>Araç masrafları, muayene / sigorta uyarıları</li>
+          <li>Aylık gelir · gider · kâr raporları</li>
+          <li>Excel / CSV dışa aktarım</li>
+        </ul>
+        <small class="auth-legal" data-firma></small>
+      </div>
+    </div>
+    <div class="auth-main">
+      <div class="auth-card">
+        <img class="auth-logo" src="assets/img/logo.png" alt="Kadıoğlu Lojistik" width="150" height="134">
+
+        <form id="f-login" class="auth-form" novalidate>
+          <h1>Giriş yap</h1>
+          <p class="muted">Yetkili personel girişi</p>
+          <label class="fld"><span>E-posta</span>
+            <input type="email" name="email" autocomplete="username" required placeholder="ad.soyad@firma.com"></label>
+          <label class="fld"><span>Şifre</span>
+            <span class="pw-wrap"><input type="password" name="password" autocomplete="current-password" required minlength="6">
+            <button type="button" class="pw-toggle" aria-label="Şifreyi göster">Göster</button></span></label>
+          <div class="form-msg" role="alert"></div>
+          <button class="btn btn-primary btn-block" type="submit">Giriş yap</button>
+          <button type="button" class="link-btn" data-go="forgot">Şifremi unuttum</button>
+          <p class="auth-switch">Hesabınız yok mu? <button type="button" class="link-btn inline" data-go="signup">Kayıt ol</button></p>
+        </form>
+
+        <form id="f-signup" class="auth-form" novalidate hidden>
+          <h1>Kayıt ol</h1>
+          <p class="muted">Kaydınız bir yönetici onaylayana kadar beklemede kalır.</p>
+          <label class="fld"><span>Ad soyad</span>
+            <input type="text" name="ad_soyad" autocomplete="name" required maxlength="120"></label>
+          <label class="fld"><span>E-posta</span>
+            <input type="email" name="email" autocomplete="email" required></label>
+          <label class="fld"><span>Şifre</span>
+            <input type="password" name="password" autocomplete="new-password" required minlength="8">
+            <small class="hint">En az 8 karakter; büyük harf, küçük harf ve rakam içermeli.</small></label>
+          <label class="fld"><span>Şifre (tekrar)</span>
+            <input type="password" name="password2" autocomplete="new-password" required minlength="8"></label>
+          <div class="form-msg" role="alert"></div>
+          <button class="btn btn-primary btn-block" type="submit">Kayıt ol</button>
+          <button type="button" class="link-btn" data-go="login">← Girişe dön</button>
+        </form>
+
+        <form id="f-forgot" class="auth-form" novalidate hidden>
+          <h1>Şifremi unuttum</h1>
+          <p class="muted">E-posta adresinize şifre sıfırlama bağlantısı gönderilir.</p>
+          <label class="fld"><span>E-posta</span>
+            <input type="email" name="email" autocomplete="username" required></label>
+          <div class="form-msg" role="alert"></div>
+          <button class="btn btn-primary btn-block" type="submit">Sıfırlama bağlantısı gönder</button>
+          <button type="button" class="link-btn" data-go="login">← Girişe dön</button>
+        </form>
+
+        <form id="f-recover" class="auth-form" novalidate hidden>
+          <h1>Yeni şifre belirleyin</h1>
+          <p class="muted">En az 8 karakter; büyük harf, küçük harf ve rakam içermeli.</p>
+          <label class="fld"><span>Yeni şifre</span>
+            <input type="password" name="password" autocomplete="new-password" required minlength="8"></label>
+          <label class="fld"><span>Yeni şifre (tekrar)</span>
+            <input type="password" name="password2" autocomplete="new-password" required minlength="8"></label>
+          <div class="form-msg" role="alert"></div>
+          <button class="btn btn-primary btn-block" type="submit">Şifreyi kaydet</button>
+        </form>
+      </div>
+      <p class="auth-foot">Bu panel yalnızca yetkili personel içindir. Tüm işlemler kayıt altına alınır.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Onay bekliyor -->
+<section id="scr-pending" class="auth-screen" hidden>
+  <div class="auth-wrap single">
+    <div class="auth-card">
+      <img class="auth-logo" src="assets/img/logo.png" alt="Kadıoğlu Lojistik" width="150" height="134">
+      <h1>Hesabınız onay bekliyor</h1>
+      <p><b id="pending-email"></b> hesabıyla kayıt oldunuz. Verilere erişebilmeniz için bir
+        yöneticinin hesabınızı onaylaması ve size bir rol ataması gerekiyor.</p>
+      <p class="muted small">Onaylandıktan sonra “Tekrar kontrol et” düğmesine basın veya yeniden giriş yapın.</p>
+      <div class="row-gap">
+        <button class="btn btn-primary" id="btn-pending-refresh" type="button">Tekrar kontrol et</button>
+        <button class="btn" id="btn-pending-logout" type="button">Çıkış yap</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Uygulama -->
+<div id="scr-app" class="app" hidden>
+  <aside class="sidebar" id="sidebar" aria-label="Ana menü">
+    <a class="brand" href="#/">
+      <span class="brand-logo"><img src="assets/img/logo.png" alt="Kadıoğlu Lojistik" width="72" height="64"></span>
+      <span class="brand-text">Muhasebe Paneli</span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#/" data-route="dashboard"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Gösterge Paneli</a>
+      <span class="nav-sec">Satış</span>
+      <a href="#/musteriler" data-route="musteriler"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>Müşteriler</a>
+      <a href="#/faturalar" data-route="faturalar"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h5"/></svg>Faturalar</a>
+      <a href="#/tahsilatlar" data-route="tahsilatlar"><svg viewBox="0 0 24 24"><path d="M2 7h20v12H2zM2 11h20M6 15h4"/></svg>Tahsilatlar</a>
+      <span class="nav-sec">Alış</span>
+      <a href="#/tedarikciler" data-route="tedarikciler"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13M9 21v-6h6v6M3 21h18"/></svg>Tedarikçiler</a>
+      <a href="#/gelen-faturalar" data-route="gelen-faturalar"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M12 11v6M9 14l3 3 3-3"/></svg>Gelen Faturalar</a>
+      <a href="#/odemeler" data-route="odemeler"><svg viewBox="0 0 24 24"><path d="M2 7h20v12H2zM12 16v-6M9 13l3 3 3-3"/></svg>Ödemeler</a>
+      <a href="#/borclar" data-route="borclar"><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/></svg>Borçlarım</a>
+      <span class="nav-sec">Filo ve gider</span>
+      <a href="#/araclar" data-route="araclar"><svg viewBox="0 0 24 24"><path d="M1 6h13v10H1zM14 10h4l3 3v3h-7M5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>Araçlar</a>
+      <a href="#/giderler" data-route="giderler"><svg viewBox="0 0 24 24"><path d="M5 2h14v20l-3-2-2 2-2-2-2 2-2-2-3 2zM9 7h6M9 11h6M9 15h4"/></svg>Giderler</a>
+      <span class="nav-sec">Genel</span>
+      <a href="#/raporlar" data-route="raporlar"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Raporlar</a>
+      <a href="#/kullanicilar" data-route="kullanicilar" data-only="yonetici"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5zM9 12l2 2 4-4"/></svg>Kullanıcılar</a>
+    </nav>
+    <div class="side-foot"><span data-firma-kisa></span> · Gaziantep</div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn hamburger" id="btn-menu" type="button" aria-label="Menüyü aç" aria-controls="sidebar">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <div class="top-title" id="top-title">Gösterge Paneli</div>
+      <div class="user">
+        <button class="user-btn" id="btn-user" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="avatar" id="u-avatar">?</span>
+          <span class="u-meta"><b id="u-name"></b><small id="u-role"></small></span>
+        </button>
+        <div class="user-menu" id="user-menu" hidden>
+          <button type="button" data-act="password">Şifre değiştir</button>
+          <button type="button" data-act="logout">Çıkış yap</button>
+        </div>
+      </div>
+    </header>
+    <main id="view" class="view" tabindex="-1"></main>
+  </div>
+</div>
+
+<dialog id="dlg" class="dlg" aria-modal="true"></dialog>
+<dialog id="dlg-confirm" class="dlg dlg-sm" aria-modal="true"></dialog>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+<!-- Yazdırılabilir belge alanı (cari ekstre, tahsilat makbuzu) — yalnızca yazdırırken görünür -->
+<div id="print-root" class="print-root" aria-hidden="true"></div>
+</body>
+</html>
