@@ -1,0 +1,3 @@
+supabase-js 2.117.2 (dist/umd/supabase.js)
+Chart.js 4.5.1 (chart.umd.min.js)
+SheetJS CE 0.20.3 (xlsx.mini.min.js, cdn.sheetjs.com)
